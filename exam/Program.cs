@@ -12,6 +12,11 @@ namespace exam
 {
     class SampleListener : Listener
     {
+        Vector _beforeVector = new Vector(0f,0f,0f);
+        bool _AttachFingerCheck = false;
+        float _sensitive = 10f;
+        float _moveDist = 100f;
+
         private Object thisLock = new Object();
 
         private void SafeWriteLine(String line)
@@ -47,10 +52,6 @@ namespace exam
             SafeWriteLine("Exited");
         }
 
-        float _BeforeZAxis = 0;
-        int counter = 0;
-        bool _check = false;
-
         public override void OnFrame(Controller controller)
         {
             // Get the most recent frame and report some basic information
@@ -58,13 +59,10 @@ namespace exam
 
             foreach (Hand hand in frame.Hands)
             {
-
                 // Get the hand's normal vector and direction
                 Vector normal = hand.PalmNormal;
                 Vector direction = hand.Direction;
-
-                // Get fingers
-
+                
                 Finger index = null;
                 Finger middle = null;
 
@@ -72,8 +70,6 @@ namespace exam
                 {
                     if (finger.Type == Finger.FingerType.TYPE_INDEX)
                     {
-                        //SafeWriteLine(finger.TipPosition.ToString());
-                        //SafeWriteLine(finger.StabilizedTipPosition.ToString());
                         index = finger;
                     }
                     if (finger.Type == Finger.FingerType.TYPE_MIDDLE)
@@ -81,39 +77,28 @@ namespace exam
                         middle = finger;
                     }
                 }
+
                 Vector dist = null;
-                if (index != null && middle != null)
+                dist = index.TipPosition - middle.TipPosition;
+
+                if (dist.MagnitudeSquared < 700 && _AttachFingerCheck == false)
                 {
-                    dist = index.TipPosition - middle.TipPosition;
-                    //SafeWriteLine(dist.MagnitudeSquared.ToString());
-                }
-                if(dist.MagnitudeSquared < 1000 && _check == false)
-                {
-                    
+                    _AttachFingerCheck = true;
+                    _beforeVector.z = index.TipPosition.z;
                 }
 
-                if (dist != null)
+                if (dist.MagnitudeSquared >= 700)
                 {
-                    if (dist.MagnitudeSquared < 1000)
-                    {
-                        //SafeWriteLine((counter++).ToString());
-                        SafeWriteLine((_BeforeZAxis - index.TipPosition.z).ToString());
-                        Mouse.mouse_event(Mouse.Wheel, 0, 0, (int)(index.TipPosition.z - _BeforeZAxis), 0);
-                    }
+                    _AttachFingerCheck = false;
                 }
 
-                if (index != null)
+                if (_AttachFingerCheck == true && Math.Abs(index.TipPosition.z - _beforeVector.z) >= _sensitive)
                 {
-                    _BeforeZAxis = index.TipPosition.z;
+                    //SafeWriteLine((index.TipPosition.z - _BeforeZAxis).ToString());
+                    SafeWriteLine(((index.TipPosition.z - _beforeVector.z) * _moveDist / _sensitive).ToString());
+                    Mouse.mouse_event(Mouse.Wheel, 0, 0, (int)((index.TipPosition.z - _beforeVector.z) * _moveDist / _sensitive), 0);
+                    _beforeVector.z = index.TipPosition.z;
                 }
-
-
-
-            }
-
-            if (!frame.Hands.IsEmpty || !frame.Gestures().IsEmpty)
-            {
-                //feWriteLine("");
             }
         }
     }
@@ -125,6 +110,7 @@ namespace exam
             // Create a sample listener and controller
             SampleListener listener = new SampleListener();
             Controller controller = new Controller();
+            
             controller.SetPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
 
             // Have the sample listener receive events from the controller
