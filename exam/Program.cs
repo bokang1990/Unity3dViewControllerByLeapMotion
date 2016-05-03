@@ -23,6 +23,9 @@ namespace exam
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern void keybd_event(uint vk, uint scan, uint flags, uint extraInfo);
+
         public const int LeftDown = 0x0002;
         public const int LeftUp = 0x0004;
         public const int RightDown = 0x0008;
@@ -47,14 +50,18 @@ namespace exam
         Vector _beforeVector = new Vector(0f,0f,0f);    //befor moving point vector
         bool _attachFingerCheck = false;    //attach checking index,middle finger
 
-        float _attachSensitivity = 700f;  //attach checking sensitivity
+        float _attachIMSensitivity = 700f;  //index-middle attach checking sensitivity
+        float _attachRPSensitivity = 900f;  //ring-pinky attach checking sensitivity
         float _stepSensitivity = 5f;     //one move step sensitivity
         float _wheelMoveDist = 100f;      //wheel move distance
         float _xMoveDist = 10f;           //x axis move distance
         float _yMoveDist = 10f;           //y axis move distance
         int _counter = 0;
         POINT mousePT;                    //mouse pointer position
-        
+        int _mode = 0;                   //move mode. 0,1
+        bool _mode0Check = false;
+        bool _mode1Check = false;
+
         private Object thisLock = new Object();
 
         private void SafeWriteLine(String line)
@@ -84,74 +91,159 @@ namespace exam
                 Vector normal = hand.PalmNormal;
                 Vector direction = hand.Direction;
                 
-                Finger index = null;
-                Finger middle = null;
+                Finger indexFinger = null;
+                Finger middleFinger = null;
+                Finger ringFinger = null;
+                Finger pinkyFinger = null;
 
                 //index,middle finger setting
                 foreach (Finger finger in hand.Fingers)
                 {
                     if (finger.Type == Finger.FingerType.TYPE_INDEX)
                     {
-                        index = finger;
+                        indexFinger = finger;
                     }
-                    if (finger.Type == Finger.FingerType.TYPE_MIDDLE)
+                    else if (finger.Type == Finger.FingerType.TYPE_MIDDLE)
                     {
-                        middle = finger;
+                        middleFinger = finger;
+                    }
+                    else if (finger.Type == Finger.FingerType.TYPE_RING)
+                    {
+                        ringFinger = finger;
+                    }
+                    else if (finger.Type == Finger.FingerType.TYPE_PINKY)
+                    {
+                        pinkyFinger = finger;
+                    }
+
+                }
+
+                Vector RPdist = ringFinger.TipPosition - pinkyFinger.TipPosition;
+
+                //index-middle finger tips distance for checking attach 
+                Vector IMdist = indexFinger.TipPosition - middleFinger.TipPosition; //index middle distance
+                
+                if (RPdist.MagnitudeSquared < _attachRPSensitivity)
+                {
+                    _mode = 1;
+                    if(_mode0Check)
+                    {
+                        Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
+                        _mode0Check = false;
+                        Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
+
+                        Mouse.keybd_event(0x012, 0, 0x00, 0);       //left alt key down
+                        Mouse.mouse_event(Mouse.LeftDown, 0, 0, 0, 0);
+                        _mode1Check = true;
                     }
                 }
-                
-                //index-middle finger tips distance for checking attach 
-                Vector dist = index.TipPosition - middle.TipPosition;
+                else
+                {
+                    _mode = 0;
+                    if (_mode1Check)
+                    {
+                        Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
+                        Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
+                        _mode1Check = false;
+                        Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
+
+                        Mouse.mouse_event(Mouse.MiddleDown, 0, 0, 0, 0);
+                        _mode0Check = true;
+                    }
+                }
 
                 //if attach index-middle finger, checking and setting
-                if (dist.MagnitudeSquared < _attachSensitivity && _attachFingerCheck == false)  
+                if (IMdist.MagnitudeSquared < _attachIMSensitivity && _attachFingerCheck == false)  
                 {
+                    if(_mode == 0)
+                    {
+                        Mouse.mouse_event(Mouse.MiddleDown, 0, 0, 0, 0);
+                        _mode0Check = true;
+                    }
+                    else if(_mode == 1)
+                    {
+                        Mouse.keybd_event(0x012, 0, 0x00, 0);       //left alt key down
+                        Mouse.mouse_event(Mouse.LeftDown, 0, 0, 0, 0);
+                        _mode1Check = true;
+                    }
+                    else
+                    {
+                        Mouse.mouse_event(Mouse.RightDown, 0, 0, 0, 0);
+                    }
+
                     _attachFingerCheck = true;
-                    _beforeVector = index.TipPosition;
-                    Mouse.mouse_event(Mouse.MiddleDown, 0, 0, 0, 0);
+                    _beforeVector = indexFinger.TipPosition;
                     Mouse.GetCursorPos(out mousePT);    //save cursor positon
                 }
 
                 //if seperate index-middle finger, checking and setting
-                if (dist.MagnitudeSquared >= _attachSensitivity && _attachFingerCheck == true)
+                if (IMdist.MagnitudeSquared >= _attachIMSensitivity && _attachFingerCheck == true)
                 {
+                    if (_mode == 0)
+                    {
+                        Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
+                        _mode0Check = false;
+                    }
+                    else if(_mode == 1)
+                    {
+                        Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
+                        Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
+                        _mode1Check = false;
+                    }
+                    else
+                    {
+                        Mouse.mouse_event(Mouse.RightUp, 0, 0, 0, 0);
+                    }
+
+
                     _attachFingerCheck = false;
-                    Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
                     Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
                 }
 
                 //wheel move
-                if (_attachFingerCheck == true && Math.Abs(index.TipPosition.z - _beforeVector.z) >= _stepSensitivity)
+                if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.z - _beforeVector.z) >= _stepSensitivity)
                 {
-                    int realMoveWheel = (int)((index.TipPosition.z - _beforeVector.z) * _wheelMoveDist / _stepSensitivity);
+                    int realMoveWheel = (int)((indexFinger.TipPosition.z - _beforeVector.z) * _wheelMoveDist / _stepSensitivity);
                     Mouse.mouse_event(Mouse.Wheel, 0, 0, realMoveWheel, 0);
-                    _beforeVector.z = index.TipPosition.z;
+                    _beforeVector.z = indexFinger.TipPosition.z;
                 }
 
                 //x move
-                if (_attachFingerCheck == true && Math.Abs(index.TipPosition.x - _beforeVector.x) >= _stepSensitivity)
+                if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.x - _beforeVector.x) >= _stepSensitivity)
                 {
-                    int realMovePosX = (int)((index.TipPosition.x - _beforeVector.x) * _xMoveDist / _stepSensitivity);
+                    int realMovePosX = (int)((indexFinger.TipPosition.x - _beforeVector.x) * _xMoveDist / _stepSensitivity);
                     Mouse.mouse_event(Mouse.Move, realMovePosX, 0, 0, 0);
-                    _beforeVector.x = index.TipPosition.x;
+                    _beforeVector.x = indexFinger.TipPosition.x;
                 }
 
                 //y move
-                if (_attachFingerCheck == true && Math.Abs(index.TipPosition.y - _beforeVector.y) >= _stepSensitivity)
+                if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.y - _beforeVector.y) >= _stepSensitivity)
                 {
-                    int realMovePosY = -(int)((index.TipPosition.y - _beforeVector.y) * _yMoveDist / _stepSensitivity);
+                    int realMovePosY = -(int)((indexFinger.TipPosition.y - _beforeVector.y) * _yMoveDist / _stepSensitivity);
                     Mouse.mouse_event(Mouse.Move, 0, realMovePosY, 0, 0);
-                    _beforeVector.y = index.TipPosition.y;
+                    _beforeVector.y = indexFinger.TipPosition.y;
                 }
 
                 break;  //for one hand
             }
 
             //suddenly disappear, setting init
-            if(_attachFingerCheck == true && frame.Hands.IsEmpty)
+            if (_attachFingerCheck == true && frame.Hands.IsEmpty)
             {
+                if (_mode0Check)
+                {
+                    Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
+                    _mode0Check = false;
+                }
+
+                if(_mode1Check)
+                {
+                    Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
+                    Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
+                    _mode1Check = false;
+                }
+
                 _attachFingerCheck = false;
-                Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
                 Mouse.GetCursorPos(out mousePT);
             }
 

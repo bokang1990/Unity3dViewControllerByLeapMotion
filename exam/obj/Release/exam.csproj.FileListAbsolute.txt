@@ -4,3 +4,4 @@ c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Release\exam
 c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Release\LeapCSharp.NET4.0.dll
 c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Release\exam.exe
 c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Release\exam.pdb
+C:\Users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Release\exam.csprojResolveAssemblyReference.cache
