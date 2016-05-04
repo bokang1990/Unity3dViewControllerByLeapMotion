@@ -90,7 +90,7 @@ namespace exam
                 //SafeWriteLine(hand.PalmVelocity.MagnitudeSquared.ToString());
                 if (hand.PalmVelocity.MagnitudeSquared > (500 * 500))
                 {
-                    SafeWriteLine("So Fast!"+ _counter++);
+                    //SafeWriteLine("So Fast!"+ _counter++);
                     return;
                 }
 
@@ -251,7 +251,7 @@ namespace exam
                 }
 
                 _attachFingerCheck = false;
-                Mouse.GetCursorPos(out mousePT);
+                Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
             }
 
             //attach finger checking log
@@ -279,7 +279,8 @@ namespace exam
             Console.WriteLine("===>>  QUIT : SPACE BAR");
             while (true)
             {
-                if (Console.ReadKey().Key == ConsoleKey.X)
+                ConsoleKey c = Console.ReadKey().Key;
+                if (c == ConsoleKey.X)
                 {
                     listener.OnOff = !listener.OnOff;
                     if(listener.OnOff == false)
@@ -291,7 +292,7 @@ namespace exam
                         Console.WriteLine("TURN ON");
                     }
                 }
-                if (Console.ReadKey().Key == ConsoleKey.Spacebar)
+                if (c == ConsoleKey.Spacebar)
                     break;
             }
 
