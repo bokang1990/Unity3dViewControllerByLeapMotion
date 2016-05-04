@@ -62,6 +62,8 @@ namespace exam
         bool _mode0Check = false;
         bool _mode1Check = false;
 
+        public bool OnOff = true; 
+
         private Object thisLock = new Object();
 
         private void SafeWriteLine(String line)
@@ -74,6 +76,11 @@ namespace exam
         
         public override void OnFrame(Controller controller)
         {
+            if(!OnOff)
+            {
+                return;
+            }
+
             // Get the most recent frame and report some basic information
             Frame frame = controller.Frame();
             
@@ -269,8 +276,24 @@ namespace exam
             controller.AddListener(listener);
 
             // Keep this process running until Enter is pressed
-            Console.WriteLine("Press Enter to quit...");
-            Console.ReadLine();
+            Console.WriteLine("===>>  QUIT : SPACE BAR");
+            while (true)
+            {
+                if (Console.ReadKey().Key == ConsoleKey.X)
+                {
+                    listener.OnOff = !listener.OnOff;
+                    if(listener.OnOff == false)
+                    {
+                        Console.WriteLine("TURN OFF");
+                    }
+                    else
+                    {
+                        Console.WriteLine("TURN ON");
+                    }
+                }
+                if (Console.ReadKey().Key == ConsoleKey.Spacebar)
+                    break;
+            }
 
             // Remove the sample listener when done
             controller.RemoveListener(listener);
