@@ -36,7 +36,11 @@ namespace exam
         public const int Absolute = 0x8000;
         public const int Wheel = 0x0800;
         public const int HWWheel = 0x1000;
-        
+
+        public const int KeyALT = 0x012;
+        public const int KeyDown = 0x00;
+        public const int KeyUp = 0x02;
+
     }
 
     public struct POINT
@@ -132,82 +136,47 @@ namespace exam
                 //index-middle finger tips distance for checking attach 
                 Vector IMdist = indexFinger.TipPosition - middleFinger.TipPosition; //index middle distance
                 
-                if (RPdist.MagnitudeSquared < _attachRPSensitivity)
-                {
-                    _mode = 1;
-                    if(_mode0Check)
-                    {
-                        Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
-                        _mode0Check = false;
-                        Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
-
-                        Mouse.keybd_event(0x012, 0, 0x00, 0);       //left alt key down
-                        Mouse.mouse_event(Mouse.LeftDown, 0, 0, 0, 0);
-                        _mode1Check = true;
-                    }
-                }
-                else
+                //if attach/seperate index-middle finger, checking and setting
+                if (IMdist.MagnitudeSquared < _attachIMSensitivity && _attachFingerCheck == false && !_mode1Check)  
                 {
                     _mode = 0;
-                    if (_mode1Check)
-                    {
-                        Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
-                        Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
-                        _mode1Check = false;
-                        Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
-
-                        Mouse.mouse_event(Mouse.MiddleDown, 0, 0, 0, 0);
-                        _mode0Check = true;
-                    }
-                }
-
-                //if attach index-middle finger, checking and setting
-                if (IMdist.MagnitudeSquared < _attachIMSensitivity && _attachFingerCheck == false)  
-                {
-                    if(_mode == 0)
-                    {
-                        Mouse.mouse_event(Mouse.MiddleDown, 0, 0, 0, 0);
-                        _mode0Check = true;
-                    }
-                    else if(_mode == 1)
-                    {
-                        Mouse.keybd_event(0x012, 0, 0x00, 0);       //left alt key down
-                        Mouse.mouse_event(Mouse.LeftDown, 0, 0, 0, 0);
-                        _mode1Check = true;
-                    }
-                    else
-                    {
-                        Mouse.mouse_event(Mouse.RightDown, 0, 0, 0, 0);
-                    }
+                    Mouse.mouse_event(Mouse.MiddleDown, 0, 0, 0, 0);
 
                     _attachFingerCheck = true;
                     _beforeVector = indexFinger.TipPosition;
                     Mouse.GetCursorPos(out mousePT);    //save cursor positon
-                }
-
-                //if seperate index-middle finger, checking and setting
-                if (IMdist.MagnitudeSquared >= _attachIMSensitivity && _attachFingerCheck == true)
+                    _mode0Check = true;
+                }   
+                else if (IMdist.MagnitudeSquared >= _attachIMSensitivity && _attachFingerCheck == true && !_mode1Check)
                 {
-                    if (_mode == 0)
-                    {
-                        Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
-                        _mode0Check = false;
-                    }
-                    else if(_mode == 1)
-                    {
-                        Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
-                        Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
-                        _mode1Check = false;
-                    }
-                    else
-                    {
-                        Mouse.mouse_event(Mouse.RightUp, 0, 0, 0, 0);
-                    }
-
+                    Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
 
                     _attachFingerCheck = false;
                     Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
+                    _mode0Check = false;
                 }
+
+                if(RPdist.MagnitudeSquared < _attachRPSensitivity && _attachFingerCheck == false && !_mode0Check)
+                {
+                    _mode = 1;
+                    Mouse.keybd_event(0x012, 0, 0x00, 0);       //left alt key down
+                    Mouse.mouse_event(Mouse.LeftDown, 0, 0, 0, 0);
+
+                    _attachFingerCheck = true;
+                    _beforeVector = indexFinger.TipPosition;
+                    Mouse.GetCursorPos(out mousePT);    //save cursor positon
+                    _mode1Check = true;
+                }
+                else if(RPdist.MagnitudeSquared >= _attachRPSensitivity && _attachFingerCheck == true && !_mode0Check)
+                {
+                    Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
+                    Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
+
+                    _attachFingerCheck = false;
+                    Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
+                    _mode1Check = false;
+                }
+
 
                 //wheel move
                 if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.z - _beforeVector.z) >= _stepSensitivity && _mode == 0)
@@ -240,13 +209,14 @@ namespace exam
             //suddenly disappear, setting init
             if (_attachFingerCheck == true && frame.Hands.IsEmpty)
             {
+
                 if (_mode0Check)
                 {
                     Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
                     _mode0Check = false;
                 }
 
-                if(_mode1Check)
+                if (_mode1Check)
                 {
                     Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
                     Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
@@ -256,12 +226,7 @@ namespace exam
                 _attachFingerCheck = false;
                 Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
             }
-
-            //attach finger checking log
-            //if (_attachFingerCheck == true)
-            //{
-            //    SafeWriteLine((_counter++).ToString());     
-            //}
+            
         }
     }
 
@@ -279,11 +244,11 @@ namespace exam
             controller.AddListener(listener);
 
             // Keep this process running until Enter is pressed
-            Console.WriteLine("===>>  QUIT : SPACE BAR   ///   TURN ON/OFF : x");
+            Console.WriteLine("===>>  QUIT : SPACE BAR   ///   TURN ON/OFF : c");
             while (true)
             {
                 ConsoleKey c = Console.ReadKey().Key;
-                if (c == ConsoleKey.X)
+                if (c == ConsoleKey.C)
                 {
                     listener.OnOff = !listener.OnOff;
                     if(listener.OnOff == false)
