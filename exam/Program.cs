@@ -93,6 +93,28 @@ namespace exam
             foreach (Hand hand in frame.Hands)
             {
 
+                if(hand.Confidence < 0.6f)
+                {
+                    if (_mode0Check)
+                    {
+                        Mouse.mouse_event(Mouse.MiddleUp, 0, 0, 0, 0);
+                        _mode0Check = false;
+                        _attachFingerCheck = false;
+                        Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
+                    }
+
+                    if (_mode1Check)
+                    {
+                        Mouse.keybd_event(0x012, 0, 0x02, 0);       //left alt key up
+                        Mouse.mouse_event(Mouse.LeftUp, 0, 0, 0, 0);
+                        _mode1Check = false;
+                        _attachFingerCheck = false;
+                        Mouse.SetCursorPos(mousePT.x, mousePT.y);   //load cursor positon
+                    }
+
+                    return;
+                }
+
                 //SafeWriteLine(hand.PalmVelocity.MagnitudeSquared.ToString());
                 if (hand.PalmVelocity.MagnitudeSquared > (500 * 500))
                 {
