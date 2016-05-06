@@ -76,6 +76,8 @@ namespace exam
         
         public override void OnFrame(Controller controller)
         {
+
+
             if(!OnOff)
             {
                 return;
@@ -208,8 +210,9 @@ namespace exam
                 }
 
                 //wheel move
-                if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.z - _beforeVector.z) >= _stepSensitivity)
+                if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.z - _beforeVector.z) >= _stepSensitivity && _mode == 0)
                 {
+
                     int realMoveWheel = (int)((indexFinger.TipPosition.z - _beforeVector.z) * _wheelMoveDist / _stepSensitivity);
                     Mouse.mouse_event(Mouse.Wheel, 0, 0, realMoveWheel, 0);
                     _beforeVector.z = indexFinger.TipPosition.z;
@@ -276,7 +279,7 @@ namespace exam
             controller.AddListener(listener);
 
             // Keep this process running until Enter is pressed
-            Console.WriteLine("===>>  QUIT : SPACE BAR");
+            Console.WriteLine("===>>  QUIT : SPACE BAR   ///   TURN ON/OFF : x");
             while (true)
             {
                 ConsoleKey c = Console.ReadKey().Key;
