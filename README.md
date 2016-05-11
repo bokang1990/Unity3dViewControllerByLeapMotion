@@ -9,6 +9,8 @@ This program execute automatic mouse moving and clicking.
 <br>
 #How to Use:
 
+  You should placed mouse on scene view.
+  <br><br>
   If you attach Index Finger with Middle Finger, you can change view position and change depth.
   
   If you attach Ring Finger with Pinky Finger, you can change angle.
