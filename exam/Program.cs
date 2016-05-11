@@ -204,7 +204,7 @@ namespace exam
                 if (_attachFingerCheck == true && Math.Abs(indexFinger.TipPosition.z - _beforeVector.z) >= _stepSensitivity && _mode == 0)
                 {
 
-                    int realMoveWheel = (int)((indexFinger.TipPosition.z - _beforeVector.z) * _wheelMoveDist / _stepSensitivity);
+                    int realMoveWheel = (int)((indexFinger.TipPosition.z - _beforeVector.z) * _wheelMoveDist * 2f / _stepSensitivity);
                     Mouse.mouse_event(Mouse.Wheel, 0, 0, realMoveWheel, 0);
                     _beforeVector.z = indexFinger.TipPosition.z;
                 }
