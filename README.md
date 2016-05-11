@@ -8,6 +8,8 @@ This program execute automatic mouse moving and clicking.
 
 
 
+
+
 How to Use:
 
   If you attach Index Finger with Middle Finger, you can change view position and change depth.
