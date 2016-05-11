@@ -1,0 +1,6 @@
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Release\LeapCSharp.NET4.0.dll
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Release\Unity3dViewcontrollerByLeapMotion.exe.config
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Release\Unity3dViewcontrollerByLeapMotion.exe
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Release\Unity3dViewcontrollerByLeapMotion.pdb
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Release\Unity3dViewcontrollerByLeapMotion.exe
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Release\Unity3dViewcontrollerByLeapMotion.pdb

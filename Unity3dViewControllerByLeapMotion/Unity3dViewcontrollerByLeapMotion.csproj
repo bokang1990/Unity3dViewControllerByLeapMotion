@@ -7,8 +7,8 @@
     <ProjectGuid>{E6422C95-3F69-4FFD-8329-E88E116D805A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>exam</RootNamespace>
-    <AssemblyName>exam</AssemblyName>
+    <RootNamespace>Unity3dViewcontrollerByLeapMotion</RootNamespace>
+    <AssemblyName>Unity3dViewcontrollerByLeapMotion</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -1,3 +1,7 @@
-C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Debug\exam.exe.config
-C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\exam.exe
-C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\exam.pdb
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Debug\LeapCSharp.NET4.0.dll
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\Unity3dViewcontrollerByLeapMotion.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Debug\Unity3dViewcontrollerByLeapMotion.exe.config
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Debug\Unity3dViewcontrollerByLeapMotion.exe
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Debug\Unity3dViewcontrollerByLeapMotion.pdb
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\Unity3dViewcontrollerByLeapMotion.exe
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\Unity3dViewcontrollerByLeapMotion.pdb
