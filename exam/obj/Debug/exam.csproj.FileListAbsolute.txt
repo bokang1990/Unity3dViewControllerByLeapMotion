@@ -1,7 +1,0 @@
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Debug\exam.exe.config
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Debug\exam.exe
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Debug\exam.pdb
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Debug\LeapCSharp.NET4.0.dll
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Debug\exam.csprojResolveAssemblyReference.cache
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Debug\exam.exe
-c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Debug\exam.pdb

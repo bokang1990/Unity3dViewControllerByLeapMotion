@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="ActiproSoftware.SyntaxEditor.Addons.DotNet.Net20, Version=4.0.283.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86" />
     <Reference Include="LeapCSharp.NET4.0">
-      <HintPath>..\..\..\..\LeapSDK\lib\LeapCSharp.NET4.0.dll</HintPath>
+      <HintPath>..\..\..\LeapSDK\lib\LeapCSharp.NET4.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,8 +56,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /yr "C:\Users\bokang\Documents\LeapSDK\lib\x64\Leap.dll" "$(TargetDir)"
-xcopy /yr "C:\Users\bokang\Documents\LeapSDK\lib\x64\LeapCSharp.dll" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>xcopy /yr "C:\Users\Administrator\Documents\LeapSDK\lib\x64\Leap.dll" "$(TargetDir)"
+xcopy /yr "C:\Users\Administrator\Documents\LeapSDK\lib\x64\LeapCSharp.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

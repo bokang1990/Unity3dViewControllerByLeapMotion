@@ -1,0 +1,3 @@
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\bin\Debug\exam.exe.config
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\exam.exe
+C:\Users\Administrator\Documents\git\3Dcon\Unity3dViewControllerByLeapMotion\obj\Debug\exam.pdb

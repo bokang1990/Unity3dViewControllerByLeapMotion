@@ -5,3 +5,10 @@ c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\bin\Release\Leap
 c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Release\exam.exe
 c:\users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Release\exam.pdb
 C:\Users\bokang\documents\visual studio 2015\Projects\exam\exam\obj\Release\exam.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\git\3Dcon\exam\bin\Release\exam.exe.config
+C:\Users\Administrator\Documents\git\3Dcon\exam\bin\Release\exam.exe
+C:\Users\Administrator\Documents\git\3Dcon\exam\bin\Release\exam.pdb
+C:\Users\Administrator\Documents\git\3Dcon\exam\bin\Release\LeapCSharp.NET4.0.dll
+C:\Users\Administrator\Documents\git\3Dcon\exam\obj\Release\exam.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\git\3Dcon\exam\obj\Release\exam.exe
+C:\Users\Administrator\Documents\git\3Dcon\exam\obj\Release\exam.pdb
