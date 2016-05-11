@@ -1,15 +1,9 @@
 # Unity3dViewControllerByLeapMotion
 Unity3d Scene view controller using Leap motion (os: window)
-
-
-Because of this program for using private, it's spaghetti code.
-
+<br><br>Because of this program for using private, it's spaghetti code.
 This program execute automatic mouse moving and clicking.
 
-
-
-
-
+<br>
 How to Use:
 
   If you attach Index Finger with Middle Finger, you can change view position and change depth.
