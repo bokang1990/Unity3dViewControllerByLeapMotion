@@ -1,5 +1,5 @@
 # Unity3dViewControllerByLeapMotion
-Unity3d Scene view controller using Leap motion (os: window)
+Unity3d Scene view controller using Leap motion (os: windows)
 <br><br>This program execute automatic mouse moving and clicking.
 <br>
 #Where is Exeute file:
