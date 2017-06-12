@@ -1,7 +1,6 @@
 # Unity3dViewControllerByLeapMotion
 Unity3d Scene view controller using Leap motion (os: window)
-<br><br>Because of this program for using private, it's spaghetti code.
-This program execute automatic mouse moving and clicking.
+<br><br>This program execute automatic mouse moving and clicking.
 <br>
 #Where is Exeute file:
   /Unity3dViewControllerByLeapMotion/bin/Release<br>
